@@ -17,8 +17,8 @@ namespace SpecFlowHooks
             _log.Information("Starting");
         }
 
-        [AfterScenario]
-        public static void AfterScenario()
+        [AfterTestRun]
+        public static void AfterTestRun()
         {
             _log.Information("Stopped");
         }
