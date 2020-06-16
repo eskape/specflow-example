@@ -9,22 +9,18 @@ namespace SpecFlowHooks
     [Binding]
     public sealed class Hooks
     {
-        public static ILogger Log = new LoggerConfiguration().Enrich.FromLogContext().WriteTo.Console().CreateLogger();
+        private static ILogger _log = new LoggerConfiguration().Enrich.FromLogContext().WriteTo.Console().CreateLogger();
 
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            Log.Information("Starting");
-
+            _log.Information("Starting");
         }
 
         [AfterScenario]
         public static void AfterScenario()
         {
-            Log.Information("Stopped");
-
+            _log.Information("Stopped");
         }
-        
-
     }
 }
