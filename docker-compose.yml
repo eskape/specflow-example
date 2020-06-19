@@ -4,9 +4,24 @@ services:
         container_name: specflow-tests
         build: .
         depends_on:
-        - chrome
+        - selenium-hub
+        command: ["./wait-for-it.sh", "selenium-hub:4444", "--", "dotnet", "test", "--", "--hostname", "selenium-hub"]
     
+    selenium-hub:    
+        image: selenium/hub
+        volumes:
+        - /dev/shm:/dev/shm
+        expose:
+        - "4444"
+
     chrome:
-        image: selenium/standalone-chrome
-        ports:
-        - "4444:4444"
+        image: selenium/node-chrome
+        volumes:
+        - /dev/shm:/dev/shm
+        depends_on:
+        - selenium-hub
+        - specflow-tests
+        environment:
+        - HUB_HOST=selenium-hub
+        - HUB_PORT=4444
+        - CHROME_VERSION=google-chrome-stable
